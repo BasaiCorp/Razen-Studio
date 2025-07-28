@@ -25,8 +25,8 @@
             <!-- Version Info Section -->
             <div class="sidebar-version">
                 <div class="sv">
-                    <p class="version-text">Beta v1.0.3</p>
-<p class="update-text">Sidebar Update!</p>
+                    <p class="version-text">Beta v1.1.0</p>
+<p class="update-text">Monoco Added!</p>
                 </div>
                 <!-- Settings Button -->
                 <a href="settings.html" id="settings-btn" class="btn settings-btn-sidebar" title="Settings">
@@ -47,21 +47,18 @@
 
             <main>
                 <div class="editor-container">
-                    <div class="line-numbers" id="line-numbers">1</div>
-                    <textarea id="code-editor" spellcheck="false" placeholder="Start coding in Razen Lang..."></textarea>
-                    <pre id="highlighting" aria-hidden="true"><code class="language-razen" id="highlighting-content"></code></pre>
-                    <div class="autocomplete-suggestions" id="autocomplete-suggestions"></div>
+                    <div id="editor" class="editor"></div>
                 </div>
             </main>
 
             <div class="toolbar">
-                <button id="copy-btn" class="btn"><i class="fas fa-copy"></i> Copy</button>
-                <button id="theme-toggle" class="btn"><i class="fas fa-moon"></i> Dark</button>
-                <button id="tab-btn" class="btn"><i class="fas fa-indent"></i> Tab</button>
-                <button id="undo-btn" class="btn"><i class="fas fa-undo"></i> Undo</button>
-                <button id="redo-btn" class="btn"><i class="fas fa-redo"></i> Redo</button>
-                <button id="bracket-btn" class="btn"><i class="fas fa-code"></i> {}</button>
-                <button id="search-btn" class="btn"><i class="fas fa-search"></i> Search</button>
+                <button id="copy-btn" class="btn"><i class="fas fa-copy"></i></button>
+                <button id="theme-toggle" class="btn"><i class="fas fa-moon"></i></button>
+                <button id="tab-btn" class="btn"><i class="fas fa-indent"></i></button>
+                <button id="undo-btn" class="btn"><i class="fas fa-undo"></i></button>
+                <button id="redo-btn" class="btn"><i class="fas fa-redo"></i></button>
+                <button id="bracket-btn" class="btn"><i class="fas fa-code"></i></button>
+                <button id="search-btn" class="btn"><i class="fas fa-search"></i></button>
             </div>
             <footer>
                 <div class="status-bar">
@@ -108,8 +105,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
     <script>
         // Improved theme detection script
         (function() {
@@ -127,7 +123,6 @@
             document.body.classList.add(themeToApply);
         })();
     </script>
-    <script src="razen.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

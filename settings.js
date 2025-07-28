@@ -1,24 +1,6 @@
 // settings.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Sidebar Toggle (Handled by script.js, but ensure it works) ---
-    // The script.js should already handle this, but we can add a check
-    const sidebar = document.getElementById('sidebar');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
-    
-    if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
-        });
-    }
-    
-    if (sidebarCloseBtn) {
-        sidebarCloseBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-        });
-    }
-    
     // --- Settings Navigation Logic ---
     const navButtons = document.querySelectorAll('.settings-nav-btn'); // Use the specific class
     const contentContainer = document.getElementById('settings-content');
