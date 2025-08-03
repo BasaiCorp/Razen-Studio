@@ -100,7 +100,7 @@ Navigation between these sections is handled via the sidebar within the settings
 *   **HTML5**
 *   **CSS3** (Variables for theming)
 *   **JavaScript** (Vanilla JS for core logic)
-*   **[Prism.js](https://prismjs.com/)** - Syntax highlighting
+*   **Monaco Editor (VSCode Engine)** - Code Editor Engine
 *   **[Font Awesome](https://fontawesome.com/)** - Icons
 *   **[Google Fonts](https://fonts.google.com/)** - Work Sans, JetBrains Mono
 
