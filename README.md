@@ -57,16 +57,30 @@ A modern web browser (Chrome, Firefox, Edge, Safari, etc.)
 ## Project Structure
 
 ```
-razen-studio/
-├── index.html          # Main editor page
-├── settings.html       # Settings page
-├── style.css           # Main stylesheet
-├── settings.css        # Settings page specific styles
-├── ra.js               # (Assumed) Razen Lang specific logic (if applicable)
-├── script.js           # Main editor JavaScript (sidebar, editor functionality)
-├── settings.js         # Settings page JavaScript (navigation, content loading)
-├── screenshot.png      # (Add this) Project screenshot
-└── README.md           # This file
+Razen-Studio/
+├── Android/
+├── autocomplete.json
+├── dashboard.css
+├── dashboard.html
+├── dashboard.js
+├── filesystem.js
+├── index.html
+├── keywords.json
+├── LICENCE
+├── preview.css
+├── preview.html
+├── preview.js
+├── README.md
+├── Screenshot1.jpg
+├── Screenshot2.jpg
+├── Screenshot3.jpg
+├── Screenshot4.jpg
+├── script.js
+├── settings.css
+├── settings.html
+├── settings.js
+├── storage.js
+└── style.css
 ```
 
 ## Settings
