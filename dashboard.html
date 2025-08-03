@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Razen Studio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div class="header-left">
+                <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <a href="index.html" class="btn"><i class="fas fa-code"></i> Open Editor</a>
+                <button id="theme-toggle" class="btn"><i class="fas fa-moon"></i></button>
+            </div>
+        </header>
+
+        <main class="dashboard-main">
+            <div class="dashboard-actions">
+                <button id="create-project-btn" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Project</button>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-projects-input" placeholder="Search projects...">
+                </div>
+            </div>
+
+            <section id="projects-section">
+                <h2>Recent Projects</h2>
+                <div id="project-list" class="project-grid">
+                    <!-- Projects will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Project Modal -->
+    <div id="create-project-modal" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h2>Create New Project</h2>
+            <p>Enter a name for your new project.</p>
+            <input type="text" id="project-name-input" class="input-field" placeholder="My awesome project">
+            <div class="popup-buttons">
+                <button id="confirm-create-project-btn" class="btn">Create</button>
+                <button id="cancel-create-project-btn" class="btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Popup for alerts and confirmations -->
+    <div id="custom-popup" class="popup-container" style="display: none;">
+        <div class="popup-content">
+            <h3 id="popup-title"></h3>
+            <p id="popup-message"></p>
+            <div class="popup-buttons">
+                <button id="popup-confirm" class="btn">Confirm</button>
+                <button id="popup-cancel" class="btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let themeToApply = 'light-theme';
+            if (savedTheme) {
+                themeToApply = savedTheme;
+            } else if (systemPrefersDark) {
+                themeToApply = 'dark-theme';
+            }
+            document.body.classList.add(themeToApply);
+        })();
+    </script>
+    <script src="filesystem.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>

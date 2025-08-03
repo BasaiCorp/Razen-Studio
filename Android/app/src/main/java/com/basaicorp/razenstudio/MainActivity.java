@@ -1,7 +1,10 @@
 package com.basaicorp.razenstudio;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -23,17 +26,20 @@ public class MainActivity extends Activity {
 
         // Configure WebView settings
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);               // JS support
-        webSettings.setDomStorageEnabled(true);               // Enables localStorage/sessionStorage
-        webSettings.setAllowFileAccess(true);                 // Access to local file:// (for assets)
-        webSettings.setAllowContentAccess(true);              // Allow access to content:// URIs
-        webSettings.setDatabaseEnabled(true);                 // For Web SQL/IndexedDB if used
-        webSettings.setLoadWithOverviewMode(true);            // Loads content to fit the view
-        webSettings.setUseWideViewPort(true);                 // Enables responsive layout
-        webSettings.setSupportZoom(true);                     // Enable zoom
-        webSettings.setBuiltInZoomControls(true);             // Show zoom buttons
-        webSettings.setDisplayZoomControls(false);            // Hide native zoom UI
-        webSettings.setJavaScriptCanOpenWindowsAutomatically(true); // Support window.open()
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setAllowFileAccess(true);
+        webSettings.setAllowContentAccess(true);
+        webSettings.setDatabaseEnabled(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setSupportZoom(true);
+        webSettings.setBuiltInZoomControls(true);
+        webSettings.setDisplayZoomControls(false);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+        // Add JavaScript Interface
+        webView.addJavascriptInterface(new WebAppInterface(this), "Android");
 
         // WebViewClient: to handle internal loading
         webView.setWebViewClient(new WebViewClient());
@@ -41,11 +47,15 @@ public class MainActivity extends Activity {
         // WebChromeClient: for alerts, confirm, console logs, file chooser, etc.
         webView.setWebChromeClient(new WebChromeClient());
 
-        // Load local HTML file from assets
-        webView.loadUrl("file:///android_asset/index.html");
+        // Load the initial page
+        loadWebViewContent();
     }
 
-    // Handle back button navigation
+    private void loadWebViewContent() {
+        // Load local HTML file from assets
+        webView.loadUrl("file:///android_asset/dashboard.html");
+    }
+
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
@@ -53,5 +63,5 @@ public class MainActivity extends Activity {
         } else {
             super.onBackPressed();
         }
-    } // Should print: 1.0.3-beta.1
+    }
 }

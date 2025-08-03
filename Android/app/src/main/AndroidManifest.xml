@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"  
     package="com.basaicorp.razenstudio"  
-    android:versionCode="1000301"  
-    android:versionName="1.0.3-beta.1">
+    android:versionCode="1020002"  
+    android:versionName="1.2.0-beta.2">
   
     <!-- ✅ Permissions -->  
     <uses-permission android:name="android.permission.INTERNET" />  
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />  
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   
     <!-- ✅ Minimum and Target SDK -->  
     <uses-sdk android:minSdkVersion="31" android:targetSdkVersion="31" />  

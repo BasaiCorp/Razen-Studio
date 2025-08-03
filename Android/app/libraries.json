@@ -1,0 +1,14 @@
+[
+  {
+    "artifactId": "core",
+    "excludes": [],
+    "groupId": "androidx.core",
+    "versionName": "1.12.0"
+  },
+  {
+    "artifactId": "webkit",
+    "excludes": [],
+    "groupId": "androidx.webkit",
+    "versionName": "1.8.0"
+  }
+]
