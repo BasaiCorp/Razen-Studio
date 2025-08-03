@@ -103,6 +103,7 @@ Navigation between these sections is handled via the sidebar within the settings
 *   **Monaco Editor (VSCode Engine)** - Code Editor Engine
 *   **[Font Awesome](https://fontawesome.com/)** - Icons
 *   **[Google Fonts](https://fonts.google.com/)** - Work Sans, JetBrains Mono
+*   **Java** (Used for Android App Logic)
 
 ## Contributing
 
