@@ -88,7 +88,7 @@ Razen-Studio/
 The `settings.html` page provides information about the Razen Studio project:
 
 *   **GitHub:** Links to the repository, issues, and releases.
-*   **Version:** Displays the current version (Beta v1.0.3).
+*   **Version:** Displays the current version (Beta v1.2.0).
 *   **Changelogs:** Lists recent changes and updates.
 *   **License:** Shows the project's license (MIT).
 *   **About:** Provides a brief description and developer information.
@@ -119,7 +119,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](#) file for details (or include the full license text in a separate file and link it).
+This project is licensed under the MIT License - see the [LICENSE](LICENCE) file for details.
 
 ## Acknowledgments
 
