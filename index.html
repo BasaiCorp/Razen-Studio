@@ -19,19 +19,39 @@
                 <h3>Files</h3>
                 <button id="sidebar-close-btn" class="btn"><i class="fas fa-times"></i></button>
             </div>
-            <button id="new-file-btn" class="btn"><i class="fas fa-plus"></i> New File</button>
+            <div class="sidebar-actions-top">
+                <button id="new-file-btn" class="btn" title="New File"><i class="fas fa-plus"></i></button>
+                <button id="new-folder-btn" class="btn" title="New Folder"><i class="fas fa-folder-plus"></i></button>
+                <button id="import-files-btn" class="btn" title="Import Files"><i class="fas fa-upload"></i></button>
+            </div>
             <div id="file-list" class="file-list"></div>
+            <div id="file-context-menu" class="context-menu" style="display: none;">
+                <ul>
+                    <li id="context-menu-delete"><i class="fas fa-trash-alt"></i> Delete</li>
+                </ul>
+            </div>
+
 
             <!-- Version Info Section -->
             <div class="sidebar-version">
                 <div class="sv">
-                    <p class="version-text">Beta v1.1.0</p>
-<p class="update-text">Monoco Added!</p>
+                    <p class="version-text">Beta v1.2.0</p>
+                    <p class="update-text">New Update!</p>
                 </div>
-                <!-- Settings Button -->
-                <a href="settings.html" id="settings-btn" class="btn settings-btn-sidebar" title="Settings">
-                    <i class="fas fa-cog"></i>
-                </a>
+                <!-- Action Buttons -->
+                <div class="sidebar-actions">
+                    <button id="nav-toggle-btn" class="btn settings-btn-sidebar" title="Navigation">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div id="nav-menu" class="nav-menu">
+                        <a href="dashboard.html" class="nav-menu-item">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                        <a href="settings.html" class="nav-menu-item">
+                            <i class="fas fa-cog"></i> Settings
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="main-content">
@@ -59,6 +79,13 @@
                 <button id="redo-btn" class="btn"><i class="fas fa-redo"></i></button>
                 <button id="bracket-btn" class="btn"><i class="fas fa-code"></i></button>
                 <button id="search-btn" class="btn"><i class="fas fa-search"></i></button>
+                <button id="cursor-up-btn" class="btn"><i class="fas fa-arrow-up"></i></button>
+                <button id="cursor-down-btn" class="btn"><i class="fas fa-arrow-down"></i></button>
+                <button id="cursor-left-btn" class="btn"><i class="fas fa-arrow-left"></i></button>
+                <button id="cursor-right-btn" class="btn"><i class="fas fa-arrow-right"></i></button>
+                <button id="select-btn" class="btn"><i class="fas fa-highlighter"></i></button>
+                <button id="select-all-btn" class="btn"><i class="fas fa-object-group"></i></button>
+                <button id="run-btn" class="btn"><i class="fas fa-play"></i> Run</button>
             </div>
             <footer>
                 <div class="status-bar">
@@ -66,6 +93,24 @@
                     <span id="language-indicator">Razen Lang</span>
                 </div>
             </footer>
+        </div>
+    </div>
+
+    <div id="preview-modal" class="preview-modal" style="display: none;">
+        <div class="preview-modal-content">
+            <div class="preview-modal-header">
+                <h2>Preview</h2>
+                <div class="preview-mode-controls">
+                    <button id="preview-mode-desktop" class="btn active">Desktop</button>
+                    <button id="preview-mode-mobile" class="btn">Mobile</button>
+                    <button id="preview-mode-custom" class="btn">Custom</button>
+                </div>
+                <button id="preview-modal-close-btn" class="btn">&times;</button>
+            </div>
+            <div class="preview-modal-body">
+                <iframe id="preview-iframe"></iframe>
+            </div>
+            <div class="preview-resize-handle"></div>
         </div>
     </div>
 
@@ -90,17 +135,14 @@
         </div>
     </div>
 
-    <div id="search-popup" class="popup-container" style="display: none;">
+    <!-- Re-using the custom popup from dashboard for consistency -->
+    <div id="custom-popup" class="popup-container" style="display: none;">
         <div class="popup-content">
-            <div class="search-input-group">
-                <input type="text" id="search-input" class="input-field" placeholder="Find">
-                <input type="text" id="replace-input" class="input-field" placeholder="Replace">
-            </div>
+            <h3 id="popup-title"></h3>
+            <p id="popup-message"></p>
             <div class="popup-buttons">
-                <button id="find-next-btn" class="btn">Find Next</button>
-                <button id="replace-btn" class="btn">Replace</button>
-                <button id="replace-all-btn" class="btn">Replace All</button>
-                <button id="search-cancel-btn" class="btn">Cancel</button>
+                <button id="popup-confirm" class="btn">Confirm</button>
+                <button id="popup-cancel" class="btn">Cancel</button>
             </div>
         </div>
     </div>
@@ -123,6 +165,29 @@
             document.body.classList.add(themeToApply);
         })();
     </script>
+    <script src="storage.js"></script>
+    <script src="filesystem.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navToggleBtn = document.getElementById('nav-toggle-btn');
+            const navMenu = document.getElementById('nav-menu');
+
+            if (navToggleBtn && navMenu) {
+                navToggleBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navMenu.classList.toggle('show');
+                });
+            }
+
+            window.addEventListener('click', (e) => {
+                if (navMenu && navMenu.classList.contains('show')) {
+                    if (!navMenu.contains(e.target) && !navToggleBtn.contains(e.target)) {
+                        navMenu.classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
