@@ -1,9 +1,8 @@
-
 # Razen Studio
 
 Razen Studio is a modern code editor specifically designed for the Razen Lang programming language. Built with HTML, CSS, and JavaScript, it offers a clean and efficient environment for coding.
 
-![Razen Studio Screenshot](screenshot.jpg) 
+![Razen Studio Screenshot](screenshot.jpg)
 
 ## Features
 
@@ -15,6 +14,7 @@ Razen Studio is a modern code editor specifically designed for the Razen Lang pr
 *   **Editor Tools:** Includes common tools like Copy, Tab handling, Undo/Redo, and Bracket insertion.
 *   **Search & Replace:** Basic find and replace functionality.
 *   **Settings Panel:** A dedicated settings area for project information.
+*   **Android App:** Razen Studio is also available as an Android application. You can download the latest version from the [Releases page](https://github.com/BasaiCorp/Razen-Studio/releases).
 
 ## Getting Started
 

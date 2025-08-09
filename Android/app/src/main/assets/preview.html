@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="preview.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        // Apply theme from localStorage to ensure consistency with the main app
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark-theme';
+            document.documentElement.className = savedTheme;
+            // For older CSS that might target body
+            document.body.className = savedTheme;
+        })();
+    </script>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <button id="preview-manage-btn" class="btn s-btn" title="Preview Options">
+                <i class="fas fa-sliders-h"></i>
+            </button>
+            <div id="preview-dropdown" class="dropdown-content">
+                <a href="#" id="exit-preview"><i class="fas fa-sign-out-alt"></i> Exit Preview</a>
+                <a href="#" id="desktop-mode"><i class="fas fa-desktop"></i> Desktop Mode</a>
+                <a href="#" id="console-log"><i class="fas fa-terminal"></i> Console</a>
+            </div>
+        </div>
+        <div id="content" class="preview-content"></div>
+    </div>
+
+    <!-- Reload Toast Notification -->
+    <div id="reload-toast" class="toast">
+        <i class="fas fa-check-circle"></i> Content successfully reloaded!
+    </div>
+
+    <script src="preview.js"></script>
+</body>
+</html>
