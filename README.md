@@ -93,7 +93,7 @@ The `settings.html` page provides information about the Razen Studio project:
 *   **License:** Shows the project's license (MIT).
 *   **About:** Provides a brief description and developer information.
 
-Navigation between these sections is handled via the sidebar within the settings page.
+Navigation between these sections is handled via the sidebar within the settings page.  
 
 ## Built With
 
