@@ -22,6 +22,10 @@ public class WebAppInterface {
     private static final String PROJECTS_DIR = "RazenStudio/Projects";
     private static final String LOG_TAG = "WebAppInterface";
 
+    // Clipboard for copy/cut operations
+    private File clipboardFile = null;
+    private boolean isCutOperation = false;
+
     public WebAppInterface(Context context) {
         this.context = context;
     }
@@ -289,7 +293,110 @@ public class WebAppInterface {
     }
 
 
+    @JavascriptInterface
+    public String rename(String projectName, String relativePath, String newName) {
+        File projectDir = new File(getProjectsRoot(), projectName);
+        File oldFile = new File(projectDir, relativePath);
+        File newFile = new File(oldFile.getParent(), newName);
+
+        if (!oldFile.exists()) {
+            return "Error: File or folder to rename does not exist.";
+        }
+        if (newFile.exists()) {
+            return "Error: A file or folder with the new name already exists.";
+        }
+        if (oldFile.renameTo(newFile)) {
+            return "Success";
+        }
+        return "Error: Renaming failed.";
+    }
+
+    @JavascriptInterface
+    public String copy(String projectName, String relativePath) {
+        File projectDir = new File(getProjectsRoot(), projectName);
+        clipboardFile = new File(projectDir, relativePath);
+        isCutOperation = false;
+        return "Success";
+    }
+
+    @JavascriptInterface
+    public String cut(String projectName, String relativePath) {
+        File projectDir = new File(getProjectsRoot(), projectName);
+        clipboardFile = new File(projectDir, relativePath);
+        isCutOperation = true;
+        return "Success";
+    }
+
+    @JavascriptInterface
+    public String paste(String projectName, String destinationRelativePath) {
+        if (clipboardFile == null) {
+            return "Error: Clipboard is empty.";
+        }
+
+        File projectDir = new File(getProjectsRoot(), projectName);
+        File destinationDir = new File(projectDir, destinationRelativePath);
+
+        try {
+            if (!destinationDir.isDirectory()) {
+                return "Error: Destination is not a valid directory.";
+            }
+
+            File newFile = new File(destinationDir, clipboardFile.getName());
+
+            if (isCutOperation) {
+                if (clipboardFile.renameTo(newFile)) {
+                    clipboardFile = null; // Clear clipboard after cut
+                    isCutOperation = false;
+                    return "Success";
+                }
+                return "Error: Failed to move the file/folder.";
+            } else {
+                // Copy operation
+                if (clipboardFile.isDirectory()) {
+                    copyDirectory(clipboardFile, newFile);
+                } else {
+                    copyFile(clipboardFile, newFile);
+                }
+                return "Success";
+            }
+        } catch (IOException e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    @JavascriptInterface
+    public String downloadFile(String path) {
+        // Placeholder for download functionality
+        return "Error: Download not implemented yet.";
+    }
+
+    @JavascriptInterface
+    public String getPREVIEW(String... path) {
+        // Placeholder for preview functionality
+        return "Error: Preview not implemented yet.";
+    }
+
     // --- Helper Methods ---
+
+    private void copyFile(File source, File dest) throws IOException {
+        try (FileInputStream in = new FileInputStream(source);
+             FileOutputStream out = new FileOutputStream(dest)) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+        }
+    }
+
+    private void copyDirectory(File source, File dest) throws IOException {
+        if (!dest.exists()) {
+            dest.mkdirs();
+        }
+        for (String f : source.list()) {
+            copyDirectory(new File(source, f), new File(dest, f));
+        }
+    }
 
     private void createFile(File parentDir, String fileName, String content) throws IOException {
         File file = new File(parentDir, fileName);
@@ -307,13 +414,14 @@ public class WebAppInterface {
     }
 
     private boolean deleteDirectory(File dir) {
-        File[] files = dir.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    deleteDirectory(file);
-                } else {
-                    file.delete();
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            if (children != null) {
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = deleteDirectory(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
                 }
             }
         }

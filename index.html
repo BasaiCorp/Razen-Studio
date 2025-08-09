@@ -27,6 +27,15 @@
             <div id="file-list" class="file-list"></div>
             <div id="file-context-menu" class="context-menu" style="display: none;">
                 <ul>
+                    <li id="context-menu-copy"><i class="fas fa-copy"></i> Copy</li>
+                    <li id="context-menu-cut"><i class="fas fa-cut"></i> Cut</li>
+                    <li id="context-menu-paste"><i class="fas fa-paste"></i> Paste</li>
+                    <li id="context-menu-rename"><i class="fas fa-i-cursor"></i> Rename</li>
+                    <li id="context-menu-copy-path"><i class="fas fa-link"></i> Copy Path</li>
+                    <li id="context-menu-preview"><i class="fas fa-eye"></i> Show Preview</li>
+                    <li class="context-menu-divider"></li>
+                    <li id="context-menu-download"><i class="fas fa-download"></i> Download</li>
+                    <li class="context-menu-divider"></li>
                     <li id="context-menu-delete"><i class="fas fa-trash-alt"></i> Delete</li>
                 </ul>
             </div>
@@ -111,16 +120,6 @@
                 <iframe id="preview-iframe"></iframe>
             </div>
             <div class="preview-resize-handle"></div>
-        </div>
-    </div>
-
-    <div id="custom-popup" class="popup-container" style="display: none;">
-        <div class="popup-content">
-            <p id="popup-message"></p>
-            <div class="popup-buttons">
-                <button id="popup-confirm" class="btn">Confirm</button>
-                <button id="popup-cancel" class="btn">Cancel</button>
-            </div>
         </div>
     </div>
 

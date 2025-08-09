@@ -121,6 +121,18 @@ body {
     text-align: center;
 }
 
+.context-menu-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 2px 0;
+}
+
+.context-menu li.disabled {
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
 .main-content {
     flex: 1;
     display: flex;
@@ -223,6 +235,7 @@ header h1 {
 .file-tree-item {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 6px 5px;
     cursor: pointer;
     border-radius: 4px;
@@ -266,6 +279,75 @@ header h1 {
     color: var(--accent-primary);
 }
 
+/* Language & File Type Specific Icon Colors */
+.file-tree-item .icon-js { color: #f7df1e; }
+.file-tree-item .icon-ts { color: #3178c6; }
+.file-tree-item .icon-py { color: #3776ab; }
+.file-tree-item .icon-java { color: #ed8b00; }
+.file-tree-item .icon-html { color: #e34c26; }
+.file-tree-item .icon-css { color: #1572b6; }
+.file-tree-item .icon-php { color: #777bb4; }
+.file-tree-item .icon-rb { color: #cc342d; }
+.file-tree-item .icon-go { color: #00add8; }
+.file-tree-item .icon-rs { color: #000000; }
+.file-tree-item .icon-swift { color: #fa7343; }
+.file-tree-item .icon-kt { color: #7f52ff; }
+.file-tree-item .icon-dart { color: #0175c2; }
+.file-tree-item .icon-r { color: #276dc3; }
+.file-tree-item .icon-sh { color: #4eaa25; }
+.file-tree-item .icon-sql { color: #336791; }
+.file-tree-item .icon-json { color: #000000; }
+.file-tree-item .icon-md { color: #000000; }
+.file-tree-item .icon-vue { color: #4FC08D; }
+.file-tree-item .icon-jsx { color: #61DAFB; }
+.file-tree-item .icon-tsx { color: #61DAFB; }
+.file-tree-item .icon-scss { color: #CF649A; }
+.file-tree-item .icon-sass { color: #CF649A; }
+.file-tree-item .icon-ps1 { color: #012456; }
+.file-tree-item .icon-c { color: #A8B9CC; }
+.file-tree-item .icon-cpp { color: #00599C; }
+.file-tree-item .icon-cs { color: #239123; }
+.file-tree-item .icon-svelte { color: #FF3E00; }
+.file-tree-item .icon-lua { color: #2C2D72; }
+.file-tree-item .icon-scala { color: #DC322F; }
+.file-tree-item .icon-hs { color: #5D4F85; }
+.file-tree-item .icon-clj { color: #5881D8; }
+.file-tree-item .icon-ex { color: #4B275F; }
+.file-tree-item .icon-erl { color: #A90533; }
+.file-tree-item .icon-fs { color: #B845FC; }
+.file-tree-item .icon-vb { color: #4483C4; }
+.file-tree-item .icon-asm { color: #6E4C13; }
+.file-tree-item .icon-cob { color: #00529D; }
+.file-tree-item .icon-f90 { color: #734F96; }
+.file-tree-item .icon-ada { color: #025E8C; }
+.file-tree-item .icon-pas { color: #E34F26; }
+.file-tree-item .icon-m { color: #0076A8; }
+.file-tree-item .icon-pl { color: #009900; }
+.file-tree-item .icon-xml { color: #0060AC; }
+.file-tree-item .icon-yml { color: #CB171E; }
+.file-tree-item .icon-yaml { color: #CB171E; }
+.file-tree-item .icon-config { color: #666666; }
+.file-tree-item .icon-ini { color: #666666; }
+.file-tree-item .icon-env { color: #666666; }
+.file-tree-item .icon-pdf { color: #B30B00; }
+.file-tree-item .icon-doc { color: #2B579A; }
+.file-tree-item .icon-docx { color: #2B579A; }
+.file-tree-item .icon-txt { color: #888888; }
+.file-tree-item .icon-png { color: #D85D00; }
+.file-tree-item .icon-jpg { color: #D85D00; }
+.file-tree-item .icon-jpeg { color: #D85D00; }
+.file-tree-item .icon-svg { color: #FFB13B; }
+.file-tree-item .icon-zip { color: #F8D152; }
+.file-tree-item .icon-tar { color: #F8D152; }
+.file-tree-item .icon-gz { color: #F8D152; }
+.file-tree-item .icon-db { color: #00758F; }
+.file-tree-item .icon-sqlite { color: #003B57; }
+.file-tree-item .icon-lock { color: #A2A2A2; }
+.file-tree-item .icon-log { color: #B4B4B4; }
+.file-tree-item .icon-readme { color: #6A737D; }
+.file-tree-item .icon-license { color: #6A737D; }
+.file-tree-item .icon-default { color: var(--text-secondary); }
+
 /* Children are hidden by default */
 .file-tree-item-container > ul {
     display: none;
@@ -283,6 +365,7 @@ header h1 {
     padding: 0.25rem 0.5rem;
     font-size: 0.9rem;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .file-options-btn:hover {

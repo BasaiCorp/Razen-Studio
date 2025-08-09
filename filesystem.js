@@ -175,6 +175,46 @@ const FileSystem = {
             console.warn(`FS Fallback: Importing files to ${relativePath}`);
             return Promise.resolve({ success: false, message: "Not implemented in browser." });
         }
+    },
+
+    async rename(projectName, relativePath, newName) {
+        if (this.isAndroid()) {
+            const result = await window.Android.rename(projectName, relativePath, newName);
+            return { success: result === "Success", message: result };
+        } else {
+            // Fallback implementation
+            return { success: false, message: "Not implemented in browser." };
+        }
+    },
+
+    async copy(projectName, relativePath, destinationRelativePath) {
+        if (this.isAndroid()) {
+            const result = await window.Android.copy(projectName, relativePath, destinationRelativePath);
+            return { success: result === "Success", message: result };
+        } else {
+            // Fallback implementation
+            return { success: false, message: "Not implemented in browser." };
+        }
+    },
+
+    async cut(projectName, relativePath) {
+        if (this.isAndroid()) {
+            const result = await window.Android.cut(projectName, relativePath);
+            return { success: result === "Success", message: result };
+        } else {
+            // Fallback implementation
+            return { success: false, message: "Not implemented in browser." };
+        }
+    },
+
+    async paste(projectName, destinationRelativePath) {
+        if (this.isAndroid()) {
+            const result = await window.Android.paste(projectName, destinationRelativePath);
+            return { success: result === "Success", message: result };
+        } else {
+            // Fallback implementation
+            return { success: false, message: "Not implemented in browser." };
+        }
     }
 };
 

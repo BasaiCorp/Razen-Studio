@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const redoBtn = document.getElementById('redo-btn');
     const bracketBtn = document.getElementById('bracket-btn');
     const searchBtn = document.getElementById('search-btn');
+    const cursorUpBtn = document.getElementById('cursor-up-btn');
+    const cursorDownBtn = document.getElementById('cursor-down-btn');
+    const cursorLeftBtn = document.getElementById('cursor-left-btn');
+    const cursorRightBtn = document.getElementById('cursor-right-btn');
+    const selectBtn = document.getElementById('select-btn');
+    const selectAllBtn = document.getElementById('select-all-btn');
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebar-toggle');
     const sidebarCloseBtn = document.getElementById('sidebar-close-btn');
@@ -30,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeFilePath = null;
     const fs = window.FileSystem;
     let contextMenuTarget = null; // To keep track of the context menu target
+    let clipboard = null; // To hold {path, type, operation: 'copy' | 'cut'}
 
     // --- Project Loading ---
     async function loadProjectFromURL() {
@@ -95,40 +102,57 @@ document.addEventListener('DOMContentLoaded', () => {
             itemButton.dataset.path = node.path;
             itemButton.dataset.type = node.type;
 
+            // Create a wrapper for the left-side content (icon and name)
+            const leftGroup = document.createElement('div');
+            leftGroup.style.display = 'flex';
+            leftGroup.style.alignItems = 'center';
+            leftGroup.style.gap = '8px'; // Consistent spacing
+            leftGroup.style.overflow = 'hidden'; // For long text
+            leftGroup.style.textOverflow = 'ellipsis';
+
             let caretIcon;
             if (node.type === 'folder') {
                 caretIcon = document.createElement('i');
                 caretIcon.className = 'fas fa-chevron-right folder-caret';
-                itemButton.appendChild(caretIcon);
+                // Remove individual margin as gap is used now
+                leftGroup.appendChild(caretIcon);
 
                 const folderIcon = document.createElement('i');
                 folderIcon.className = 'fas fa-folder folder-icon';
-                itemButton.appendChild(folderIcon);
+                leftGroup.appendChild(folderIcon);
 
                 itemButton.addEventListener('click', () => toggleFolder(li, caretIcon));
             } else {
-                // Keep alignment
+                // Keep alignment with a placeholder
                 const placeholder = document.createElement('i');
-                placeholder.className = 'fas fa-file';
+                placeholder.className = 'fas fa-chevron-right folder-caret'; // Match folder caret for alignment
                 placeholder.style.visibility = 'hidden';
-                itemButton.appendChild(placeholder);
+                leftGroup.appendChild(placeholder);
 
                 const fileIcon = document.createElement('i');
-                fileIcon.className = `fas ${getIconForFile(node.name)} file-icon`;
-                itemButton.appendChild(fileIcon);
+                const iconInfo = getFileIcon(node.name);
+                fileIcon.className = `${iconInfo.icon} file-icon ${iconInfo.colorClass}`;
+                fileIcon.title = iconInfo.tooltip; // Add title attribute for accessibility
+                leftGroup.appendChild(fileIcon);
 
                 itemButton.addEventListener('click', () => openFile(node.path));
             }
 
             const nameSpan = document.createElement('span');
             nameSpan.textContent = node.name;
-            itemButton.appendChild(nameSpan);
+            leftGroup.appendChild(nameSpan);
 
-            // Add context menu listener
-            itemButton.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
+            itemButton.appendChild(leftGroup);
+
+            const moreBtn = document.createElement('button');
+            moreBtn.className = 'file-options-btn';
+            moreBtn.innerHTML = '<i class="fas fa-ellipsis-v"></i>';
+            moreBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent the file from being opened
                 showContextMenu(e, node.path, node.type);
             });
+
+            itemButton.appendChild(moreBtn);
 
             li.appendChild(itemButton);
 
@@ -151,15 +175,90 @@ document.addEventListener('DOMContentLoaded', () => {
         caret_icon.classList.toggle('open');
     }
 
-    function getIconForFile(fileName) {
-        const ext = fileName.split('.').pop().toLowerCase();
-        const icons = {
-            'html': 'fa-html5', 'css': 'fa-css3-alt', 'js': 'fa-js-square',
-            'json': 'fa-file-code', 'md': 'fa-markdown', 'py': 'fa-python',
-            'java': 'fa-java', 'rs': 'fa-rust', 'png': 'fa-image', 'jpg': 'fa-image',
-            'jpeg': 'fa-image', 'gif': 'fa-image', 'svg': 'fa-image'
-        };
-        return icons[ext] || 'fa-file-alt';
+    const fileIconMap = {
+        // Programming Languages
+        js: { icon: 'fab fa-js-square', colorClass: 'icon-js', tooltip: 'JavaScript' },
+        ts: { icon: 'fas fa-file-code', colorClass: 'icon-ts', tooltip: 'TypeScript' },
+        py: { icon: 'fab fa-python', colorClass: 'icon-py', tooltip: 'Python' },
+        java: { icon: 'fab fa-java', colorClass: 'icon-java', tooltip: 'Java' },
+        cs: { icon: 'fas fa-file-code', colorClass: 'icon-cs', tooltip: 'C#' },
+        cpp: { icon: 'fas fa-file-code', colorClass: 'icon-cpp', tooltip: 'C++' },
+        c: { icon: 'fas fa-file-code', colorClass: 'icon-c', tooltip: 'C' },
+        html: { icon: 'fab fa-html5', colorClass: 'icon-html', tooltip: 'HTML' },
+        css: { icon: 'fab fa-css3-alt', colorClass: 'icon-css', tooltip: 'CSS' },
+        scss: { icon: 'fab fa-sass', colorClass: 'icon-scss', tooltip: 'SCSS' },
+        sass: { icon: 'fab fa-sass', colorClass: 'icon-sass', tooltip: 'SASS' },
+        php: { icon: 'fab fa-php', colorClass: 'icon-php', tooltip: 'PHP' },
+        rb: { icon: 'fas fa-gem', colorClass: 'icon-rb', tooltip: 'Ruby' },
+        go: { icon: 'fab fa-golang', colorClass: 'icon-go', tooltip: 'Go' },
+        rs: { icon: 'fab fa-rust', colorClass: 'icon-rs', tooltip: 'Rust' },
+        swift: { icon: 'fab fa-swift', colorClass: 'icon-swift', tooltip: 'Swift' },
+        kt: { icon: 'fab fa-kickstarter-k', colorClass: 'icon-kt', tooltip: 'Kotlin' },
+        dart: { icon: 'fab fa-dart', colorClass: 'icon-dart', tooltip: 'Dart' },
+        r: { icon: 'fab fa-r-project', colorClass: 'icon-r', tooltip: 'R' },
+        m: { icon: 'fas fa-file-code', colorClass: 'icon-m', tooltip: 'MATLAB/Objective-C' },
+        pl: { icon: 'fas fa-file-code', colorClass: 'icon-pl', tooltip: 'Perl' },
+        sh: { icon: 'fas fa-terminal', colorClass: 'icon-sh', tooltip: 'Shell Script' },
+        ps1: { icon: 'fas fa-terminal', colorClass: 'icon-ps1', tooltip: 'PowerShell' },
+        sql: { icon: 'fas fa-database', colorClass: 'icon-sql', tooltip: 'SQL' },
+        vue: { icon: 'fab fa-vuejs', colorClass: 'icon-vue', tooltip: 'Vue' },
+        jsx: { icon: 'fab fa-react', colorClass: 'icon-jsx', tooltip: 'React JSX' },
+        tsx: { icon: 'fab fa-react', colorClass: 'icon-tsx', tooltip: 'React TSX' },
+        svelte: { icon: 'fas fa-file-code', colorClass: 'icon-svelte', tooltip: 'Svelte' },
+        lua: { icon: 'fas fa-file-code', colorClass: 'icon-lua', tooltip: 'Lua' },
+        scala: { icon: 'fas fa-file-code', colorClass: 'icon-scala', tooltip: 'Scala' },
+        hs: { icon: 'fas fa-file-code', colorClass: 'icon-hs', tooltip: 'Haskell' },
+        clj: { icon: 'fas fa-file-code', colorClass: 'icon-clj', tooltip: 'Clojure' },
+        ex: { icon: 'fas fa-file-code', colorClass: 'icon-ex', tooltip: 'Elixir' },
+        erl: { icon: 'fas fa-file-code', colorClass: 'icon-erl', tooltip: 'Erlang' },
+        fs: { icon: 'fas fa-file-code', colorClass: 'icon-fs', tooltip: 'F#' },
+        vb: { icon: 'fas fa-file-code', colorClass: 'icon-vb', tooltip: 'Visual Basic' },
+        asm: { icon: 'fas fa-microchip', colorClass: 'icon-asm', tooltip: 'Assembly' },
+        cob: { icon: 'fas fa-file-code', colorClass: 'icon-cob', tooltip: 'COBOL' },
+        f90: { icon: 'fas fa-file-code', colorClass: 'icon-f90', tooltip: 'Fortran' },
+        ada: { icon: 'fas fa-file-code', colorClass: 'icon-ada', tooltip: 'Ada' },
+        pas: { icon: 'fas fa-file-code', colorClass: 'icon-pas', tooltip: 'Pascal' },
+
+        // Data & Config
+        json: { icon: 'fas fa-file-alt', colorClass: 'icon-json', tooltip: 'JSON' },
+        xml: { icon: 'fas fa-file-code', colorClass: 'icon-xml', tooltip: 'XML' },
+        yml: { icon: 'fas fa-file-alt', colorClass: 'icon-yml', tooltip: 'YAML' },
+        yaml: { icon: 'fas fa-file-alt', colorClass: 'icon-yaml', tooltip: 'YAML' },
+        md: { icon: 'fab fa-markdown', colorClass: 'icon-md', tooltip: 'Markdown' },
+        config: { icon: 'fas fa-cog', colorClass: 'icon-config', tooltip: 'Config' },
+        ini: { icon: 'fas fa-cog', colorClass: 'icon-ini', tooltip: 'INI' },
+        env: { icon: 'fas fa-cog', colorClass: 'icon-env', tooltip: 'Environment' },
+
+        // Documents & Images
+        pdf: { icon: 'fas fa-file-pdf', colorClass: 'icon-pdf', tooltip: 'PDF' },
+        doc: { icon: 'fas fa-file-word', colorClass: 'icon-doc', tooltip: 'Word Document' },
+        docx: { icon: 'fas fa-file-word', colorClass: 'icon-docx', tooltip: 'Word Document' },
+        txt: { icon: 'fas fa-file-alt', colorClass: 'icon-txt', tooltip: 'Text File' },
+        png: { icon: 'fas fa-file-image', colorClass: 'icon-png', tooltip: 'PNG Image' },
+        jpg: { icon: 'fas fa-file-image', colorClass: 'icon-jpg', tooltip: 'JPEG Image' },
+        jpeg: { icon: 'fas fa-file-image', colorClass: 'icon-jpeg', tooltip: 'JPEG Image' },
+        svg: { icon: 'fas fa-file-image', colorClass: 'icon-svg', tooltip: 'SVG Image' },
+
+        // Archives & Other
+        zip: { icon: 'fas fa-file-archive', colorClass: 'icon-zip', tooltip: 'ZIP Archive' },
+        tar: { icon: 'fas fa-file-archive', colorClass: 'icon-tar', tooltip: 'TAR Archive' },
+        gz: { icon: 'fas fa-file-archive', colorClass: 'icon-gz', tooltip: 'Gzip Archive' },
+        db: { icon: 'fas fa-database', colorClass: 'icon-db', tooltip: 'Database' },
+        sqlite: { icon: 'fas fa-database', colorClass: 'icon-sqlite', tooltip: 'SQLite DB' },
+        lock: { icon: 'fas fa-lock', colorClass: 'icon-lock', tooltip: 'Lock File' },
+        log: { icon: 'fas fa-file-alt', colorClass: 'icon-log', tooltip: 'Log File' },
+    };
+
+    function getFileIcon(filename) {
+        const extension = filename.split('.').pop().toLowerCase();
+        // Handle special cases like 'README.md'
+        if (filename.toLowerCase() === 'readme.md') {
+            return { icon: 'fas fa-book-open', colorClass: 'icon-readme', tooltip: 'README' };
+        }
+        if (filename.toLowerCase() === 'license') {
+            return { icon: 'fas fa-id-badge', colorClass: 'icon-license', tooltip: 'License' };
+        }
+        return fileIconMap[extension] || { icon: 'fas fa-file-alt', colorClass: 'icon-default', tooltip: 'File' };
     }
 
 
@@ -196,7 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (button) {
             button.addEventListener('mousedown', (e) => {
                 e.preventDefault();
-                if (editor) action(editor);
+                if (editor) {
+                    action(editor);
+                    editor.focus();
+                }
             });
         }
     }
@@ -266,6 +368,16 @@ document.addEventListener('DOMContentLoaded', () => {
     addToolbarButtonListener(bracketBtn, (editor) => editor.getContribution('snippetController2')?.insert('($0)'));
     addToolbarButtonListener(searchBtn, (editor) => editor.getAction('editor.action.startFindReplaceAction').run());
 
+    // Arrow buttons
+    addToolbarButtonListener(cursorUpBtn, (editor) => editor.trigger('toolbar', 'cursorUp', null));
+    addToolbarButtonListener(cursorDownBtn, (editor) => editor.trigger('toolbar', 'cursorDown', null));
+    addToolbarButtonListener(cursorLeftBtn, (editor) => editor.trigger('toolbar', 'cursorLeft', null));
+    addToolbarButtonListener(cursorRightBtn, (editor) => editor.trigger('toolbar', 'cursorRight', null));
+
+    // Select buttons
+    addToolbarButtonListener(selectBtn, (editor) => editor.getAction('editor.action.smartSelect.expand').run());
+    addToolbarButtonListener(selectAllBtn, (editor) => editor.getAction('editor.action.selectAll').run());
+
     themeToggle.addEventListener('click', toggleTheme);
     function toggleTheme() {
         const isLightTheme = document.body.classList.toggle('light-theme');
@@ -281,19 +393,96 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     async function runCode() {
-        if (!currentProject) return;
-        const htmlContent = await fs.readFile(currentProject, 'index.html');
-        const cssContent = await fs.readFile(currentProject, 'style.css');
-        const jsContent = await fs.readFile(currentProject, 'script.js');
+        if (!currentProject) {
+            showPopup('Error', 'No project is currently open.', { showCancel: false });
+            return;
+        }
 
-        const iframeContent = `
-            <html>
-                <head><style>${cssContent || ''}</style></head>
-                <body>${htmlContent || ''}<script>${jsContent || ''}<\/script></body>
-            </html>`;
+        // Fallback to index.html if no file is active or the active one isn't HTML
+        let entryHtmlRelativePath;
+        if (activeFilePath && activeFilePath.toLowerCase().endsWith('.html')) {
+            const projectRootPath = (await fs.listProjects()).find(p => p.name === currentProject).path;
+            entryHtmlRelativePath = activeFilePath.replace(projectRootPath + '/', '');
+        } else {
+            // Check if index.html exists at the root
+            const projectContents = await fs.listProjectContents(currentProject);
+            const indexFile = projectContents.find(f => f.name === 'index.html' && f.type === 'file');
+            if (indexFile) {
+                const projectRootPath = (await fs.listProjects()).find(p => p.name === currentProject).path;
+                entryHtmlRelativePath = indexFile.path.replace(projectRootPath + '/', '');
+            } else {
+                showPopup('Error', 'Could not find an HTML file to preview. Please open an HTML file or create an index.html.', { showCancel: false });
+                return;
+            }
+        }
 
-        previewIframe.srcdoc = iframeContent;
-        previewModal.style.display = 'flex';
+        try {
+            const entryHtmlContent = await fs.readFile(currentProject, entryHtmlRelativePath);
+            if (typeof entryHtmlContent !== 'string' || entryHtmlContent.startsWith('Error:')) {
+                showPopup('Error', `Could not read the HTML file: ${entryHtmlContent}`, { showCancel: false });
+                return;
+            }
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(entryHtmlContent, 'text/html');
+            const basePath = entryHtmlRelativePath.includes('/') ? entryHtmlRelativePath.substring(0, entryHtmlRelativePath.lastIndexOf('/') + 1) : '';
+
+            const processPromises = [];
+
+            // Process CSS <link> tags
+            doc.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && !href.startsWith('http:') && !href.startsWith('https:') && !href.startsWith('//')) {
+                    const cssPath = new URL(href, `file:///${basePath}`).pathname.substring(1);
+                    const promise = fs.readFile(currentProject, cssPath).then(cssContent => {
+                        if (typeof cssContent === 'string' && !cssContent.startsWith('Error:')) {
+                            const style = doc.createElement('style');
+                            style.textContent = cssContent;
+                            link.replaceWith(style);
+                        } else {
+                            console.warn(`Could not load CSS file: ${cssPath}`);
+                        }
+                    });
+                    processPromises.push(promise);
+                }
+            });
+
+            // Process <script> tags with src
+            doc.querySelectorAll('script[src]').forEach(script => {
+                const src = script.getAttribute('src');
+                if (src && !src.startsWith('http:') && !src.startsWith('https:') && !src.startsWith('//')) {
+                    const jsPath = new URL(src, `file:///${basePath}`).pathname.substring(1);
+                    const promise = fs.readFile(currentProject, jsPath).then(jsContent => {
+                        if (typeof jsContent === 'string' && !jsContent.startsWith('Error:')) {
+                            const newScript = doc.createElement('script');
+                            newScript.textContent = jsContent;
+                            // Copy other attributes like type, defer, etc.
+                            for (const attr of script.attributes) {
+                                if (attr.name !== 'src') {
+                                    newScript.setAttribute(attr.name, attr.value);
+                                }
+                            }
+                            script.parentNode.replaceChild(newScript, script);
+                        } else {
+                            console.warn(`Could not load JS file: ${jsPath}`);
+                        }
+                    });
+                    processPromises.push(promise);
+                }
+            });
+
+            await Promise.all(processPromises);
+
+            // Serialize the document back to a string, ensuring correct doctype
+            const finalHtml = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+
+            previewIframe.srcdoc = finalHtml;
+            previewModal.style.display = 'flex';
+
+        } catch (error) {
+            console.error("Error during code preview generation:", error);
+            showPopup('Preview Error', `An unexpected error occurred: ${error.message}`, { showCancel: false });
+        }
     }
 
 
@@ -301,8 +490,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function showPopup(title, message, options = {}) {
         popupTitle.textContent = title;
         popupMessage.textContent = message;
-        popupConfirm.style.display = options.showCancel === false ? 'inline-block' : 'none';
-        popupCancel.style.display = options.showCancel !== false ? 'inline-block' : 'none';
+
+        const isAlert = options.showCancel === false;
+
+        popupConfirm.style.display = 'inline-block';
+        popupCancel.style.display = isAlert ? 'none' : 'inline-block';
+
         customPopup.style.display = 'flex';
         return new Promise((resolve) => {
             popupConfirm.onclick = () => { customPopup.style.display = 'none'; resolve(true); };
@@ -336,7 +529,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Context Menu ---
     function showContextMenu(event, path, type) {
         const menu = document.getElementById('file-context-menu');
-        contextMenuTarget = { path, type }; // Store the target info
+        contextMenuTarget = { path, type };
+
+        // Enable/disable paste
+        const pasteItem = document.getElementById('context-menu-paste');
+        pasteItem.classList.toggle('disabled', !clipboard || type !== 'folder');
+
+        // Enable/disable preview
+        const previewItem = document.getElementById('context-menu-preview');
+        previewItem.classList.toggle('disabled', !path.toLowerCase().endsWith('.html'));
 
         menu.style.display = 'block';
         menu.style.left = `${event.pageX}px`;
@@ -347,29 +548,97 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('file-context-menu').style.display = 'none';
     }
 
-    document.getElementById('context-menu-delete').addEventListener('click', async () => {
+    async function handleContextMenuAction(action) {
         hideContextMenu();
-        if (contextMenuTarget) {
-            const { path, type } = contextMenuTarget;
-            const confirm = await showPopup('Confirm Deletion', `Are you sure you want to delete this ${type}?`, { showCancel: true });
-            if (confirm) {
-                const projectRootPath = (await fs.listProjects()).find(p => p.name === currentProject).path;
-                const relativePath = path.replace(projectRootPath + '/', '');
+        if (!contextMenuTarget) return;
 
-                const result = await fs.deletePath(currentProject, relativePath);
-                if (result.success) {
-                    // If the deleted file was the active one, clear the editor
-                    if (path === activeFilePath) {
-                        editor.setValue(`// File deleted: ${relativePath}`);
-                        activeFilePath = null;
+        const { path, type } = contextMenuTarget;
+        const projectRootPath = (await fs.listProjects()).find(p => p.name === currentProject).path;
+        const relativePath = path.replace(projectRootPath + '/', '');
+
+        switch (action) {
+            case 'copy':
+                clipboard = { path, type, operation: 'copy' };
+                break;
+
+            case 'cut':
+                clipboard = { path, type, operation: 'cut' };
+                break;
+
+            case 'paste':
+                if (clipboard && type === 'folder') {
+                    const destRelativePath = relativePath;
+                    const srcRelativePath = clipboard.path.replace(projectRootPath + '/', '');
+
+                    const result = clipboard.operation === 'cut'
+                        ? await fs.rename(currentProject, srcRelativePath, `${destRelativePath}/${clipboard.path.split('/').pop()}`)
+                        : await fs.copy(currentProject, srcRelativePath, destRelativePath);
+
+                    if (result.success) {
+                        if (clipboard.operation === 'cut') clipboard = null; // Clear after paste
+                        refreshFileTree();
+                    } else {
+                        showPopup('Error', `Paste failed: ${result.message}`, { showCancel: false });
                     }
-                    refreshFileTree();
-                } else {
-                    showPopup('Error', `Could not delete: ${result.message}`, { showCancel: false });
                 }
-            }
+                break;
+
+            case 'rename':
+                const newName = await showInputPopup(`Rename ${type}:`);
+                if (newName) {
+                    const result = await fs.rename(currentProject, relativePath, newName);
+                    if (result.success) {
+                        refreshFileTree();
+                    } else {
+                        showPopup('Error', `Rename failed: ${result.message}`, { showCancel: false });
+                    }
+                }
+                break;
+
+            case 'copy-path':
+                navigator.clipboard.writeText(path).catch(err => console.error('Failed to copy path: ', err));
+                break;
+
+            case 'preview':
+                if (path.toLowerCase().endsWith('.html')) {
+                    runCode(path);
+                }
+                break;
+
+            case 'download':
+                showPopup('Not Implemented', 'Download is not yet available.', { showCancel: false });
+                break;
+
+            case 'delete':
+                const confirm = await showPopup('Confirm Deletion', `Are you sure you want to delete this ${type}?`, { showCancel: true });
+                if (confirm) {
+                    const result = await fs.deletePath(currentProject, relativePath);
+                    if (result.success) {
+                        if (path === activeFilePath) {
+                            editor.setValue(`// File deleted: ${relativePath}`);
+                            activeFilePath = null;
+                        }
+                        refreshFileTree();
+                    } else {
+                        showPopup('Error', `Could not delete: ${result.message}`, { showCancel: false });
+                    }
+                }
+                break;
         }
+    }
+
+    document.getElementById('context-menu-copy').addEventListener('click', () => handleContextMenuAction('copy'));
+    document.getElementById('context-menu-cut').addEventListener('click', () => handleContextMenuAction('cut'));
+    document.getElementById('context-menu-paste').addEventListener('click', (e) => {
+        if (!e.target.classList.contains('disabled')) handleContextMenuAction('paste');
     });
+    document.getElementById('context-menu-rename').addEventListener('click', () => handleContextMenuAction('rename'));
+    document.getElementById('context-menu-copy-path').addEventListener('click', () => handleContextMenuAction('copy-path'));
+    document.getElementById('context-menu-preview').addEventListener('click', (e) => {
+        if (!e.target.classList.contains('disabled')) handleContextMenuAction('preview');
+    });
+    document.getElementById('context-menu-download').addEventListener('click', () => handleContextMenuAction('download'));
+    document.getElementById('context-menu-delete').addEventListener('click', () => handleContextMenuAction('delete'));
 
     window.addEventListener('click', hideContextMenu);
 
