@@ -1,126 +1,130 @@
 # Razen Studio
 
-Razen Studio is a modern code editor specifically designed for the Razen Lang programming language. Built with HTML, CSS, and JavaScript, it offers a clean and efficient environment for coding.
+Razen Studio is a modern, lightweight, and multi-language code editor built as an Android WebView application.  
+While designed with Razen Lang in mind, it also supports **over 30 programming languages** including **HTML, CSS, JavaScript/TypeScript, Python, Go**, and many more through the Monaco Editor engine.  
 
+**Official Website:** [https://razen-studio.vercel.app](https://razen-studio.vercel.app)
 
-### Dashboard Screen
-![Razen Studio Screenshot1](Screenshot3.jpg)
+---
 
-### Editor Screen 
-![Razen Studio Screenshot2](Screenshot4.jpg)
+## Screenshots  
 
-### Files Tree/Sidebar
-![Razen Studio Screenshot3](Screenshot2.jpg)
+### Dashboard  
+![Razen Studio Dashboard](Screenshot3.jpg)  
 
-### Settings/Info Screen
-![Razen Studio Screenshot4](Screenshot1.jpg)
+### Code Editor  
+![Razen Studio Editor](Screenshot4.jpg)  
 
+### Files Sidebar  
+![Razen Studio Files](Screenshot2.jpg)  
+
+### Settings  
+![Razen Studio Settings](Screenshot1.jpg)  
+
+---
 
 ## Features
 
-*   **Code Editing:** A core text editor for Razen Lang.
-*   **Syntax Highlighting:** Basic syntax highlighting for better readability (using Prism.js).
-*   **File Management:** Create and manage multiple files within the editor.
-*   **Themes:** Supports both Light and Dark themes, respecting system preferences.
-*   **Sidebar Navigation:** Easy access to files and settings via a collapsible sidebar.
-*   **Editor Tools:** Includes common tools like Copy, Tab handling, Undo/Redo, and Bracket insertion.
-*   **Search & Replace:** Basic find and replace functionality.
-*   **Settings Panel:** A dedicated settings area for project information.
-*   **Android App:** Razen Studio is also available as an Android application. You can download the latest version from the [Releases page](https://github.com/BasaiCorp/Razen-Studio/releases).
+- **Multi-Language Support** – Syntax highlighting for 30+ languages (Razen, HTML, CSS, JS/TS, Python, Go, and more).  
+- **Code Editing** – Monaco Editor integration optimized for Razen and other languages.  
+- **IntelliSense & Autocomplete** – Powered by Monaco’s editor engine.  
+- **File Management** – Create, rename, and manage multiple files inside the editor.  
+- **Themes** – Light and Dark theme support with system preference detection.  
+- **Sidebar Navigation** – Collapsible navigation with quick access to files and settings.  
+- **Editor Tools** – Includes Undo/Redo, Copy, Tabs, and Bracket insertion.  
+- **Search & Replace** – Built-in lightweight find-and-replace function.  
+- **Settings Panel** – Version number, changelog, license, website, and about info.  
+- **Android-Only** – Distributed as an Android app (WebView-based).  
+
+---
+
+## Android App
+
+Razen Studio is available **only as an Android application**.  
+Download the latest APK builds from the [GitHub Releases page](https://github.com/BasaiCorp/Razen-Studio/releases).  
+
+---
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine.
-
 ### Prerequisites
+- An Android device running Android 7.0 (Nougat) or above.  
 
-A modern web browser (Chrome, Firefox, Edge, Safari, etc.)
+### Installation  
+1. Download the **latest APK** from the [Releases page](https://github.com/BasaiCorp/Razen-Studio/releases).  
+2. Install on your device.  
+3. Launch Razen Studio and start coding in your preferred language.  
 
-### Installation
-
-1.  Clone or download this repository to your local machine.
-    ```bash
-    git clone https://github.com/BasaiCorp/Razen-Studio.git
-    ```
-2.  Navigate to the project directory.
-3.  Open `index.html` in your preferred web browser.
+---
 
 ## Usage
 
-1.  **Opening the Editor:** Simply open `index.html` in a web browser.
-2.  **Creating Files:** Click the "New File" button in the sidebar.
-3.  **Editing Code:** Type your Razen Lang code into the editor area.
-4.  **Using Tools:** Utilize the buttons in the toolbar below the editor for common actions.
-5.  **Changing Themes:** Click the "Dark" or "Light" button in the toolbar to toggle themes.
-6.  **Accessing Settings:** Click the cog icon (`fa-cog`) in the sidebar or navigate to `settings.html` to view project information like GitHub links, version, changelogs, license, and about details.
+1. Open Razen Studio from your Android device.  
+2. Create a new file in the sidebar (choose any supported language).  
+3. Edit your code with syntax highlighting provided by Monaco.  
+4. Switch theme (light/dark) from the toolbar.  
+5. View project details and version info in Settings.  
 
-## Project Structure
+---
 
-```
-Razen-Studio/
-├── Android/
-├── autocomplete.json
-├── dashboard.css
-├── dashboard.html
-├── dashboard.js
-├── filesystem.js
-├── index.html
-├── keywords.json
-├── LICENCE
-├── preview.css
-├── preview.html
-├── preview.js
-├── README.md
-├── Screenshot1.jpg
-├── Screenshot2.jpg
-├── Screenshot3.jpg
-├── Screenshot4.jpg
-├── script.js
-├── settings.css
-├── settings.html
-├── settings.js
-├── storage.js
-└── style.css
-```
+## Settings Page
 
-## Settings
+The settings screen provides:  
+- GitHub repository, issues, and releases links.  
+- Official Website: [https://razen-studio.vercel.app](https://razen-studio.vercel.app)  
+- Current version information (Beta-1 v1.2.1).  
+- Changelog of new updates.  
+- License information (MIT).  
+- About developer and Razen Studio project.  
+- Note: Currently supports **30+ languages via Monaco Editor** (Razen, HTML, CSS, JavaScript, TypeScript, Python, Go, etc.).  
 
-The `settings.html` page provides information about the Razen Studio project:
-
-*   **GitHub:** Links to the repository, issues, and releases.
-*   **Version:** Displays the current version (Beta v1.2.0).
-*   **Changelogs:** Lists recent changes and updates.
-*   **License:** Shows the project's license (MIT).
-*   **About:** Provides a brief description and developer information.
-
-Navigation between these sections is handled via the sidebar within the settings page.  
+---
 
 ## Built With
 
-*   **HTML5**
-*   **CSS3** (Variables for theming)
-*   **JavaScript** (Vanilla JS for core logic)
-*   **Monaco Editor (VSCode Engine)** - Code Editor Engine
-*   **[Font Awesome](https://fontawesome.com/)** - Icons
-*   **[Google Fonts](https://fonts.google.com/)** - Work Sans, JetBrains Mono
-*   **Java** (Used for Android App Logic)
+- **HTML5, CSS3, JavaScript** – Core application logic (runs in WebView)  
+- **Monaco Editor** – VSCode’s editor engine for multi-language features  
+- **Java (Android)** – Provides WebView shell for the Android app  
+- **XML** – Android UI layouts  
+- **Font Awesome** – Icons  
+- **Google Fonts** – Work Sans, JetBrains Mono  
+
+---
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues or pull requests to the [GitHub repository](https://github.com/BasaiCorp/Razen-Studio).
+Contributions are welcome.  
+- Fork this repository  
+- Make changes in a new branch  
+- Submit a Pull Request  
+
+You can also open Issues to suggest new features or report bugs.  
+
+---
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [releases page](https://github.com/BasaiCorp/Razen-Studio/releases).
+This project follows [Semantic Versioning (SemVer)](http://semver.org/).  
+Check all available versions at the [Releases page](https://github.com/BasaiCorp/Razen-Studio/releases).  
+
+---
 
 ## Authors
 
-*   **Prathmesh Barot** - *Initial work* - [BasaiCorp](https://github.com/BasaiCorp)
+- **Prathmesh Barot** – *Creator & Lead Developer* – [BasaiCorp](https://github.com/BasaiCorp)  
+
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENCE) file for details.
+This project is licensed under the MIT License – see the [LICENSE](LICENCE) file for details.  
+
+---
 
 ## Acknowledgments
 
-*   Inspiration from other modern code editors.
+- Inspired by editors like VSCode.  
+- Thanks to the open-source community (Monaco Editor and related packages).  
+- Special thanks to early testers and users of Razen Studio.  
+
+---
