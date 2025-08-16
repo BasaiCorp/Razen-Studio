@@ -647,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Monaco Editor Initialization ---
-    require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs' } });
+    require.config({ paths: { vs: 'monaco/package/min/vs' } });
     require(['vs/editor/editor.main'], function () {
         // --- Razen Language Standard Library Definitions ---
         const razenStdLibs = {

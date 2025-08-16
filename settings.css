@@ -102,6 +102,10 @@ body.light-theme {
     flex-grow: 1; /* Allow it to take available space */
 }
 
+.close-btn {
+    padding: 8px;
+}
+
 .settings-nav-btn { /* Renamed from tab-btn to avoid potential conflicts */
     background-color: transparent;
     color: var(--text-secondary);

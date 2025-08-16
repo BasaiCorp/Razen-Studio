@@ -54,6 +54,10 @@ body {
     transform: translateX(0);
 }
 
+.close-btn {
+    padding: 8px;
+}
+
 .sidebar-header {
     display: flex;
     justify-content: space-between;
