@@ -30,7 +30,7 @@ body.light-theme {
 }
 
 body {
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Nata Sans', sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
@@ -122,7 +122,7 @@ a {
     border: 1px solid var(--border-color);
     background-color: var(--bg-tertiary);
     color: var(--text-primary);
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Nata Sans', sans-serif;
     font-size: 1rem;
     transition: all 0.2s ease;
 }
@@ -173,7 +173,10 @@ a {
 .project-card-header .project-path {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Google Sans Code', monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
 }
 
 .project-card-footer {

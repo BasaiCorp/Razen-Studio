@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="settings.css"> <!-- Settings specific overrides -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Mozilla+Text:wght@200..700&family=Nata+Sans:wght@100..900&family=Outfit:wght@100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -21,7 +21,8 @@
             </div>
             <!-- Settings Navigation moved to Sidebar -->
             <nav class="settings-sidebar-nav">
-                <button class="settings-nav-btn active" data-target="github"><i class="fab fa-github"></i> GitHub</button>
+                <button class="settings-nav-btn" data-target="github"><i class="fab fa-github"></i> GitHub</button>
+                <button class="settings-nav-btn active" data-target="customisation"><i class="fas fa-palette"></i> Customisation</button>
                 <button class="settings-nav-btn" data-target="version"><i class="fas fa-code-branch"></i> Version</button>
                 <button class="settings-nav-btn" data-target="changelogs"><i class="fas fa-history"></i> Changelogs</button>
                 <button class="settings-nav-btn" data-target="license"><i class="fas fa-file-alt"></i> License</button>
@@ -88,6 +89,55 @@
             <p>Repository: <a href="https://github.com/BasaiCorp/Razen-Studio" target="_blank">github.com/BasaiCorp/Razen-Studio</a></p>
             <p>Issues: <a href="https://github.com/BasaiCorp/razen-studio/issues" target="_blank">Report an Issue</a></p>
             <p>Releases: <a href="https://github.com/BasaiCorp/razen-studio/releases" target="_blank">View Releases</a></p>
+        </div>
+
+        <div id="customisation-content">
+            <h2>Customisation</h2>
+            <div class="setting-group">
+                <h3>Theme</h3>
+                <div class="theme-buttons">
+                    <button class="btn theme-btn" data-theme="light-theme">
+                        <i class="fas fa-sun"></i> Light
+                    </button>
+                    <button class="btn theme-btn" data-theme="dark-theme">
+                        <i class="fas fa-moon"></i> Dark
+                    </button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <h3>Code Editor Font</h3>
+                <div class="custom-dropdown" id="font-dropdown">
+                    <button class="dropdown-toggle" id="font-dropdown-toggle">
+                        <span id="selected-font-name">Google Sans Code</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu" id="font-dropdown-menu">
+                        <li data-font="Google Sans Code">Google Sans Code</li>
+                        <li data-font="JetBrains Mono">JetBrains Mono</li>
+                        <li data-font="Roboto Mono">Roboto Mono</li>
+                        <li data-font="Source Code Pro">Source Code Pro</li>
+                        <li data-font="IBM Plex Mono">IBM Plex Mono</li>
+                        <li data-font="Space Mono">Space Mono</li>
+                    </ul>
+                </div>
+                <div class="font-preview-container">
+                    <pre><code id="font-preview-code" class="language-python">
+<span class="token keyword">import</span> os
+
+<span class="token keyword">class</span> <span class="token class-name">Greeter</span>:
+    <span class="token string">"""A simple class to greet."""</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span>(<span class="token parameter">self</span>, name):
+        <span class="token parameter">self</span>.name = name
+
+    <span class="token keyword">def</span> <span class="token function">greet</span>(<span class="token parameter">self</span>):
+        <span class="token comment"># Say hello</span>
+        print(f<span class="token string">"Hello, {</span><span class="token parameter">self</span><span class="token string">.name}!"</span>)
+
+greeter = Greeter(<span class="token string">"World"</span>)
+greeter.greet()
+                    </code></pre>
+                </div>
+            </div>
         </div>
 
         <div id="version-content">

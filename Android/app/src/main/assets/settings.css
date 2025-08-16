@@ -74,7 +74,7 @@ body.light-theme {
     padding: 1rem;
     border-radius: 4px;
     overflow-x: auto;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Google Sans Code', monospace;
     font-size: 0.9em;
     border: 1px solid var(--border-color);
     white-space: pre-wrap; /* Wrap long lines */
@@ -109,7 +109,7 @@ body.light-theme {
     padding: 0.75rem 1rem;
     border-radius: 4px;
     cursor: pointer;
-    font-family: 'Work Sans', sans-serif;
+    font-family: 'Nata Sans', sans-serif;
     font-weight: 500;
     text-align: left;
     margin-bottom: 0.25rem;
@@ -177,3 +177,142 @@ body.light-theme {
 .main-content header {
     padding-bottom: 0.5rem;
 }
+
+/* --- Customisation Settings --- */
+.setting-group {
+    margin-bottom: 2rem;
+}
+
+.setting-group h3 {
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.theme-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.theme-btn {
+    flex-grow: 1;
+}
+
+.theme-btn.active {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-color: var(--accent-primary);
+}
+
+/* Custom Dropdown for Fonts */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Or whatever width you prefer */
+}
+
+.dropdown-toggle {
+    width: 100%;
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Nata Sans', sans-serif;
+    font-size: 1rem;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-toggle:hover {
+    background-color: var(--bg-secondary);
+}
+
+.dropdown-toggle:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px var(--accent-primary-translucent, rgba(137, 180, 250, 0.3));
+}
+
+.dropdown-toggle .fa-chevron-down {
+    transition: transform 0.2s ease;
+}
+
+.custom-dropdown.open .dropdown-toggle .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    list-style: none;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.custom-dropdown.open .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.dropdown-menu li:hover {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+}
+
+.dropdown-menu li.selected {
+    background-color: var(--accent-primary-translucent, rgba(137, 180, 250, 0.2));
+    color: var(--accent-primary);
+    font-weight: 500;
+}
+
+/* Font Preview */
+.font-preview-container {
+    margin-top: 1rem;
+}
+
+#font-preview-code {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre;
+    overflow-x: auto;
+    transition: font-family 0.2s ease; /* Smooth font transition */
+}
+
+/* Syntax Highlighting Tokens */
+#font-preview-code .token.keyword { color: #cba6f7; }
+#font-preview-code .token.class-name { color: #f9e2af; }
+#font-preview-code .token.function { color: #89b4fa; }
+#font-preview-code .token.string { color: #a6e3a1; }
+#font-preview-code .token.comment { color: #6c7086; }
+#font-preview-code .token.parameter { color: #f38ba8; }
+
+/* Light Theme Overrides */
+body.light-theme #font-preview-code .token.keyword { color: #7e57c2; }
+body.light-theme #font-preview-code .token.class-name { color: #c49000; }
+body.light-theme #font-preview-code .token.function { color: #4285f4; }
+body.light-theme #font-preview-code .token.string { color: #34a853; }
+body.light-theme #font-preview-code .token.comment { color: #6a737d; }
+body.light-theme #font-preview-code .token.parameter { color: #d81b60; }

@@ -2,7 +2,19 @@
 
 Razen Studio is a modern code editor specifically designed for the Razen Lang programming language. Built with HTML, CSS, and JavaScript, it offers a clean and efficient environment for coding.
 
-![Razen Studio Screenshot](screenshot.jpg)
+
+### Dashboard Screen
+![Razen Studio Screenshot1](Screenshot3.jpg)
+
+### Editor Screen 
+![Razen Studio Screenshot2](Screenshot4.jpg)
+
+### Files Tree/Sidebar
+![Razen Studio Screenshot3](Screenshot2.jpg)
+
+### Settings/Info Screen
+![Razen Studio Screenshot4](Screenshot1.jpg)
+
 
 ## Features
 
@@ -45,16 +57,30 @@ A modern web browser (Chrome, Firefox, Edge, Safari, etc.)
 ## Project Structure
 
 ```
-razen-studio/
-├── index.html          # Main editor page
-├── settings.html       # Settings page
-├── style.css           # Main stylesheet
-├── settings.css        # Settings page specific styles
-├── ra.js               # (Assumed) Razen Lang specific logic (if applicable)
-├── script.js           # Main editor JavaScript (sidebar, editor functionality)
-├── settings.js         # Settings page JavaScript (navigation, content loading)
-├── screenshot.png      # (Add this) Project screenshot
-└── README.md           # This file
+Razen-Studio/
+├── Android/
+├── autocomplete.json
+├── dashboard.css
+├── dashboard.html
+├── dashboard.js
+├── filesystem.js
+├── index.html
+├── keywords.json
+├── LICENCE
+├── preview.css
+├── preview.html
+├── preview.js
+├── README.md
+├── Screenshot1.jpg
+├── Screenshot2.jpg
+├── Screenshot3.jpg
+├── Screenshot4.jpg
+├── script.js
+├── settings.css
+├── settings.html
+├── settings.js
+├── storage.js
+└── style.css
 ```
 
 ## Settings
@@ -62,21 +88,22 @@ razen-studio/
 The `settings.html` page provides information about the Razen Studio project:
 
 *   **GitHub:** Links to the repository, issues, and releases.
-*   **Version:** Displays the current version (Beta v1.0.3).
+*   **Version:** Displays the current version (Beta v1.2.0).
 *   **Changelogs:** Lists recent changes and updates.
 *   **License:** Shows the project's license (MIT).
 *   **About:** Provides a brief description and developer information.
 
-Navigation between these sections is handled via the sidebar within the settings page.
+Navigation between these sections is handled via the sidebar within the settings page.  
 
 ## Built With
 
 *   **HTML5**
 *   **CSS3** (Variables for theming)
 *   **JavaScript** (Vanilla JS for core logic)
-*   **[Prism.js](https://prismjs.com/)** - Syntax highlighting
+*   **Monaco Editor (VSCode Engine)** - Code Editor Engine
 *   **[Font Awesome](https://fontawesome.com/)** - Icons
 *   **[Google Fonts](https://fonts.google.com/)** - Work Sans, JetBrains Mono
+*   **Java** (Used for Android App Logic)
 
 ## Contributing
 
@@ -92,7 +119,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](#) file for details (or include the full license text in a separate file and link it).
+This project is licensed under the MIT License - see the [LICENSE](LICENCE) file for details.
 
 ## Acknowledgments
 
